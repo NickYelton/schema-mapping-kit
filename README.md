@@ -1,8 +1,5 @@
 # Schema Mapping & Onboarding Kit
 
-A customer hands you a spreadsheet full of garbage and you have to get it into your canonical
-schema by Friday.
-
 This tool ingests an arbitrary CSV/Excel/JSON file, profiles every column, proposes a mapping
 to a target schema using embeddings + an LLM + dumb-but-effective heuristics, presents it in a
 review UI where a human confirms or corrects, and emits a **versioned, deterministic transform**
@@ -10,7 +7,6 @@ review UI where a human confirms or corrects, and emits a **versioned, determini
 rejection report the customer can actually act on.
 
 > **The LLM is a design-time assistant, never a runtime dependency.**
-> It proposes. A human disposes. The compiled output is pure SQL/Polars.
 
 ## Stack
 
