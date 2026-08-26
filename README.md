@@ -57,8 +57,3 @@ backend/app/
 schemas/      canonical target schemas
 samples/      deliberately messy fixtures
 ```
-
-## Status
-
-Phase 1 of 7 — skeleton. Backend, catalog, and frontend shell are up.
-See the build phases in the project plan for what lands next.
