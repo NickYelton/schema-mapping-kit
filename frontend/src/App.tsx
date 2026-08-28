@@ -1,18 +1,15 @@
 import { useEffect, useState } from 'react'
 import { api } from './api/client'
+import { ProfilePage } from './pages/ProfilePage'
 import type { HealthResponse } from './types/api'
 import './App.css'
 
-type Status = { state: 'loading' } | { state: 'ok'; data: HealthResponse } | { state: 'error'; message: string }
-
 export default function App() {
-  const [status, setStatus] = useState<Status>({ state: 'loading' })
+  const [health, setHealth] = useState<HealthResponse | null>(null)
+  const [offline, setOffline] = useState(false)
 
   useEffect(() => {
-    api
-      .health()
-      .then((data) => setStatus({ state: 'ok', data }))
-      .catch((error: Error) => setStatus({ state: 'error', message: error.message }))
+    api.health().then(setHealth).catch(() => setOffline(true))
   }, [])
 
   return (
@@ -22,27 +19,21 @@ export default function App() {
         <p className="tagline">
           Profile a messy file, review the proposed mapping, compile a deterministic transform.
         </p>
-      </header>
-
-      <section className="panel">
-        <h2>Backend</h2>
-        {status.state === 'loading' && <p className="muted">Checking…</p>}
-        {status.state === 'error' && (
-          <p className="error">
-            Cannot reach the API. Is the backend running on :8000? <span>({status.message})</span>
+        {health && (
+          <p className="badge-row">
+            <span className="badge">provider: {health.llm_provider}</span>
+            <span className="badge">phase 2 · ingest + profile</span>
           </p>
         )}
-        {status.state === 'ok' && (
-          <dl>
-            <dt>Status</dt>
-            <dd>{status.data.status}</dd>
-            <dt>LLM provider</dt>
-            <dd>{status.data.llm_provider}</dd>
-            <dt>Catalog tables</dt>
-            <dd>{status.data.tables.join(', ')}</dd>
-          </dl>
-        )}
-      </section>
+      </header>
+
+      {offline ? (
+        <section className="panel">
+          <p className="error">Cannot reach the API. Is the backend running on :8000?</p>
+        </section>
+      ) : (
+        <ProfilePage />
+      )}
     </main>
   )
 }
