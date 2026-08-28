@@ -1,8 +1,5 @@
 # Schema Mapping & Onboarding Kit
 
-A customer hands you a spreadsheet full of garbage and you have to get it into your canonical
-schema by Friday.
-
 This tool ingests an arbitrary CSV/Excel/JSON file, profiles every column, proposes a mapping
 to a target schema using embeddings + an LLM + dumb-but-effective heuristics, presents it in a
 review UI where a human confirms or corrects, and emits a **versioned, deterministic transform**
@@ -10,7 +7,6 @@ review UI where a human confirms or corrects, and emits a **versioned, determini
 rejection report the customer can actually act on.
 
 > **The LLM is a design-time assistant, never a runtime dependency.**
-> It proposes. A human disposes. The compiled output is pure SQL/Polars.
 
 ## Stack
 
@@ -61,26 +57,3 @@ backend/app/
 schemas/      canonical target schemas
 samples/      deliberately messy fixtures
 ```
-
-## Sample files
-
-Four fixtures in `samples/`, each encoding a distinct class of mess. Regenerate with
-`uv run python samples/generate.py`.
-
-| File | What's wrong with it |
-|---|---|
-| `orders_clean.csv` | Nothing — the control |
-| `orders_messy.csv` | 4-row preamble, cp1252, `;` delimiter, `$1,142.00`, five null spellings, mixed-case status, a column named `X7`, and scattered unparseable values |
-| `orders_euro.xlsx` | 3 sheets, merged two-row header, `DD/MM/YYYY`, `1.234,56` decimals |
-| `orders_nested.jsonl` | Nested objects, `quantity` vs `qty` key drift, missing fields |
-
-## Status
-
-Phase 2 of 7 complete — ingest and profiling.
-
-Working now: land CSV/Excel/JSON as all-strings with a `_src_row` traceable to the original
-file, sniff encoding/delimiter/preamble, flatten merged Excel headers and nested JSON, then
-profile every column (types, cardinality, null rate, format patterns, semantic tags) and
-browse the result in the UI.
-
-Next: the canonical target schema and Pandera generation (Phase 3).
