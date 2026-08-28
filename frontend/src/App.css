@@ -4,7 +4,12 @@
   --muted: #6b7280;
   --line: #e4e6eb;
   --panel: #f7f8fa;
+  --card: #ffffff;
+  --accent: #2f6f4e;
+  --accent-bg: #e6f2eb;
+  --warn: #8a5a00;
   --error: #b42318;
+  --code: #f0f1f4;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -14,7 +19,12 @@
     --muted: #9aa1ab;
     --line: #2a2e35;
     --panel: #1b1e24;
+    --card: #21252c;
+    --accent: #7fd4a6;
+    --accent-bg: #1d3229;
+    --warn: #e8b45c;
     --error: #ff8a7a;
+    --code: #262a31;
   }
 }
 
@@ -22,13 +32,19 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--fg);
-  font: 15px/1.55 ui-sans-serif, -apple-system, "Segoe UI", sans-serif;
+  font: 15px/1.55 ui-sans-serif, -apple-system, 'Segoe UI', sans-serif;
+}
+
+code,
+pre {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.86em;
 }
 
 .shell {
-  max-width: 900px;
+  max-width: 1180px;
   margin: 0 auto;
-  padding: 3rem 1.5rem;
+  padding: 2.5rem 1.5rem 5rem;
 }
 
 h1 {
@@ -38,7 +54,21 @@ h1 {
 }
 
 .tagline {
-  margin: 0 0 2rem;
+  margin: 0 0 0.75rem;
+  color: var(--muted);
+}
+
+.badge-row {
+  display: flex;
+  gap: 0.5rem;
+  margin: 0 0 1.75rem;
+}
+
+.badge {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.15rem 0.6rem;
+  font-size: 0.75rem;
   color: var(--muted);
 }
 
@@ -47,21 +77,55 @@ h1 {
   border-radius: 10px;
   background: var(--panel);
   padding: 1.25rem 1.5rem;
+  margin-bottom: 1.25rem;
 }
 
 .panel h2 {
-  margin: 0 0 0.75rem;
-  font-size: 0.8rem;
+  margin: 0 0 0.9rem;
+  font-size: 0.76rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--muted);
 }
 
-dl {
+button {
+  font: inherit;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--fg);
+  border-radius: 7px;
+  padding: 0.4rem 0.75rem;
+  cursor: pointer;
+}
+
+button:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.sample-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.stats {
   display: grid;
   grid-template-columns: max-content 1fr;
-  gap: 0.4rem 1.25rem;
+  gap: 0.3rem 1rem;
   margin: 0;
+}
+
+.stats.inline {
+  grid-template-columns: max-content 1fr;
+}
+
+.contents {
+  display: contents;
 }
 
 dt {
@@ -77,10 +141,150 @@ dd {
   color: var(--muted);
 }
 
+.warn {
+  color: var(--warn);
+}
+
 .error {
   color: var(--error);
 }
 
-.error span {
+.preamble {
+  margin-top: 0.9rem;
+}
+
+.preamble summary {
+  cursor: pointer;
   color: var(--muted);
+}
+
+.preamble pre {
+  background: var(--code);
+  padding: 0.6rem 0.8rem;
+  border-radius: 6px;
+  overflow-x: auto;
+}
+
+.column-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 0.85rem;
+}
+
+.column-card {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--card);
+  padding: 0.8rem 0.9rem;
+}
+
+.column-head {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.column-head h3 {
+  margin: 0;
+  font-size: 0.95rem;
+  word-break: break-word;
+}
+
+.type {
+  font-size: 0.72rem;
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+.conf {
+  font-size: 0.72rem;
+  color: var(--warn);
+}
+
+.meter {
+  position: relative;
+  height: 16px;
+  border-radius: 4px;
+  background: var(--code);
+  overflow: hidden;
+  margin-bottom: 0.6rem;
+}
+
+.meter-fill {
+  height: 100%;
+  background: var(--accent-bg);
+}
+
+.meter-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.68rem;
+  color: var(--muted);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin: 0.6rem 0 0;
+}
+
+.tag {
+  font-size: 0.7rem;
+  padding: 0.08rem 0.4rem;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  color: var(--muted);
+  cursor: help;
+}
+
+.samples {
+  list-style: none;
+  margin: 0.6rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.samples li {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+}
+
+.samples code {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+table {
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
+th,
+td {
+  border: 1px solid var(--line);
+  padding: 0.25rem 0.5rem;
+  text-align: left;
+}
+
+th {
+  background: var(--code);
+  font-weight: 600;
 }

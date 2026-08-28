@@ -1,0 +1,1056 @@
+[
+  {
+    "blank_count": 0,
+    "cardinality_ratio": 0.8667,
+    "date_ambiguous": false,
+    "date_candidates": [],
+    "distinct_count": 26,
+    "inferred_type": "string",
+    "max_length": 10,
+    "min_length": 10,
+    "name": "Ord #",
+    "normalized_distinct_count": 26,
+    "null_count": 0,
+    "null_rate": 0.0,
+    "numeric": null,
+    "ordinal": 0,
+    "pattern_coverage": 1.0,
+    "patterns": [
+      {
+        "count": 30,
+        "pattern": "[A-Z]{3}-\\d{6}",
+        "pct": 1.0
+      }
+    ],
+    "row_count": 30,
+    "samples": [
+      "ORD-000108",
+      "ORD-000111",
+      "ORD-000112",
+      "ORD-000113",
+      "ORD-000101"
+    ],
+    "semantics": [],
+    "top_values": [
+      {
+        "count": 2,
+        "pct": 0.0667,
+        "value": "ORD-000108"
+      },
+      {
+        "count": 2,
+        "pct": 0.0667,
+        "value": "ORD-000111"
+      },
+      {
+        "count": 2,
+        "pct": 0.0667,
+        "value": "ORD-000112"
+      },
+      {
+        "count": 2,
+        "pct": 0.0667,
+        "value": "ORD-000113"
+      },
+      {
+        "count": 1,
+        "pct": 0.0333,
+        "value": "ORD-000101"
+      },
+      {
+        "count": 1,
+        "pct": 0.0333,
+        "value": "ORD-000102"
+      },
+      {
+        "count": 1,
+        "pct": 0.0333,
+        "value": "ORD-000103"
+      },
+      {
+        "count": 1,
+        "pct": 0.0333,
+        "value": "ORD-000104"
+      },
+      {
+        "count": 1,
+        "pct": 0.0333,
+        "value": "ORD-000105"
+      },
+      {
+        "count": 1,
+        "pct": 0.0333,
+        "value": "ORD-000106"
+      }
+    ],
+    "type_candidates": {},
+    "type_confidence": 1.0
+  },
+  {
+    "blank_count": 0,
+    "cardinality_ratio": 0.0667,
+    "date_ambiguous": false,
+    "date_candidates": [],
+    "distinct_count": 2,
+    "inferred_type": "integer",
+    "max_length": 1,
+    "min_length": 1,
+    "name": "Ln",
+    "normalized_distinct_count": 2,
+    "null_count": 0,
+    "null_rate": 0.0,
+    "numeric": {
+      "max": 2.0,
+      "mean": 1.133333,
+      "min": 1.0,
+      "stddev": 0.339935
+    },
+    "ordinal": 1,
+    "pattern_coverage": 1.0,
+    "patterns": [
+      {
+        "count": 30,
+        "pattern": "\\d",
+        "pct": 1.0
+      }
+    ],
+    "row_count": 30,
+    "samples": [
+      "1",
+      "2"
+    ],
+    "semantics": [
+      "enum"
+    ],
+    "top_values": [
+      {
+        "count": 26,
+        "pct": 0.8667,
+        "value": "1"
+      },
+      {
+        "count": 4,
+        "pct": 0.1333,
+        "value": "2"
+      }
+    ],
+    "type_candidates": {
+      "boolean": 0.8667,
+      "decimal": 1.0,
+      "integer": 1.0
+    },
+    "type_confidence": 1.0
+  },
+  {
+    "blank_count": 0,
+    "cardinality_ratio": 0.2069,
+    "date_ambiguous": false,
+    "date_candidates": [],
+    "distinct_count": 6,
+    "inferred_type": "string",
+    "max_length": 9,
+    "min_length": 9,
+    "name": "Cust",
+    "normalized_distinct_count": 6,
+    "null_count": 1,
+    "null_rate": 0.0333,
+    "numeric": null,
+    "ordinal": 2,
+    "pattern_coverage": 1.0,
+    "patterns": [
+      {
+        "count": 29,
+        "pattern": "[A-Z]{4}-\\d{4}",
+        "pct": 1.0
+      }
+    ],
+    "row_count": 30,
+    "samples": [
+      "CUST-5560",
+      "CUST-4417",
+      "CUST-7734",
+      "CUST-9001",
+      "CUST-2210"
+    ],
+    "semantics": [
+      "enum"
+    ],
+    "top_values": [
+      {
+        "count": 6,
+        "pct": 0.2069,
+        "value": "CUST-5560"
+      },
+      {
+        "count": 5,
+        "pct": 0.1724,
+        "value": "CUST-4417"
+      },
+      {
+        "count": 5,
+        "pct": 0.1724,
+        "value": "CUST-7734"
+      },
+      {
+        "count": 5,
+        "pct": 0.1724,
+        "value": "CUST-9001"
+      },
+      {
+        "count": 5,
+        "pct": 0.1724,
+        "value": "CUST-2210"
+      },
+      {
+        "count": 3,
+        "pct": 0.1034,
+        "value": "CUST-8891"
+      }
+    ],
+    "type_candidates": {},
+    "type_confidence": 1.0
+  },
+  {
+    "blank_count": 0,
+    "cardinality_ratio": 0.2333,
+    "date_ambiguous": false,
+    "date_candidates": [],
+    "distinct_count": 7,
+    "inferred_type": "string",
+    "max_length": 8,
+    "min_length": 8,
+    "name": "Item SKU",
+    "normalized_distinct_count": 7,
+    "null_count": 0,
+    "null_rate": 0.0,
+    "numeric": null,
+    "ordinal": 3,
+    "pattern_coverage": 1.0,
+    "patterns": [
+      {
+        "count": 30,
+        "pattern": "[A-Z]{3}-\\d{4}",
+        "pct": 1.0
+      }
+    ],
+    "row_count": 30,
+    "samples": [
+      "SKU-9902",
+      "SKU-1120",
+      "SKU-8823",
+      "SKU-2287",
+      "SKU-6610"
+    ],
+    "semantics": [
+      "enum"
+    ],
+    "top_values": [
+      {
+        "count": 9,
+        "pct": 0.3,
+        "value": "SKU-9902"
+      },
+      {
+        "count": 4,
+        "pct": 0.1333,
+        "value": "SKU-1120"
+      },
+      {
+        "count": 4,
+        "pct": 0.1333,
+        "value": "SKU-8823"
+      },
+      {
+        "count": 4,
+        "pct": 0.1333,
+        "value": "SKU-2287"
+      },
+      {
+        "count": 4,
+        "pct": 0.1333,
+        "value": "SKU-6610"
+      },
+      {
+        "count": 3,
+        "pct": 0.1,
+        "value": "SKU-4471"
+      },
+      {
+        "count": 2,
+        "pct": 0.0667,
+        "value": "SKU-3345"
+      }
+    ],
+    "type_candidates": {},
+    "type_confidence": 1.0
+  },
+  {
+    "blank_count": 0,
+    "cardinality_ratio": 0.2667,
+    "date_ambiguous": false,
+    "date_candidates": [],
+    "distinct_count": 8,
+    "inferred_type": "string",
+    "max_length": 16,
+    "min_length": 8,
+    "name": "Description",
+    "normalized_distinct_count": 8,
+    "null_count": 0,
+    "null_rate": 0.0,
+    "numeric": null,
+    "ordinal": 4,
+    "pattern_coverage": 1.0,
+    "patterns": [
+      {
+        "count": 8,
+        "pattern": "[A-Z][a-z]{6}\\s[a-z]{8}",
+        "pct": 0.2667
+      },
+      {
+        "count": 4,
+        "pattern": "[A-Z][a-z]{6}\\s\\d{2}[a-z]{2}",
+        "pct": 0.1333
+      },
+      {
+        "count": 4,
+        "pattern": "[A-Z][a-z]{4}\\s[a-z]{4}",
+        "pct": 0.1333
+      },
+      {
+        "count": 4,
+        "pattern": "[A-Z][a-z]{3}\\s[a-z]{3}",
+        "pct": 0.1333
+      },
+      {
+        "count": 4,
+        "pattern": "[A-Z][a-z]{7}\\s[a-z]{6}",
+        "pct": 0.1333
+      },
+      {
+        "count": 3,
+        "pattern": "[A-Z][a-z]{5},\\s[a-z]{5}",
+        "pct": 0.1
+      },
+      {
+        "count": 2,
+        "pattern": "[A-Z][a-z]{2}\\s[a-z]{4}\\s[A-Z]\\d",
+        "pct": 0.0667
+      },
+      {
+        "count": 1,
+        "pattern": "[A-Z][a-z]{3}\\s[a-z]{5}\\s[a-z]{3}",
+        "pct": 0.0333
+      }
+    ],
+    "row_count": 30,
+    "samples": [
+      "Bearing assembly",
+      "Grommet 12mm",
+      "Drive belt",
+      "Seal kit",
+      "Coupling sleeve"
+    ],
+    "semantics": [
+      "enum"
+    ],
+    "top_values": [
+      {
+        "count": 8,
+        "pct": 0.2667,
+        "value": "Bearing assembly"
+      },
+      {
+        "count": 4,
+        "pct": 0.1333,
+        "value": "Grommet 12mm"
+      },
+      {
+        "count": 4,
+        "pct": 0.1333,
+        "value": "Drive belt"
+      },
+      {
+        "count": 4,
+        "pct": 0.1333,
+        "value": "Seal kit"
+      },
+      {
+        "count": 4,
+        "pct": 0.1333,
+        "value": "Coupling sleeve"
+      },
+      {
+        "count": 3,
+        "pct": 0.1,
+        "value": "Widget, large"
+      },
+      {
+        "count": 2,
+        "pct": 0.0667,
+        "value": "Hex bolt M8"
+      },
+      {
+        "count": 1,
+        "pct": 0.0333,
+        "value": "Caf\u00e9 table leg"
+      }
+    ],
+    "type_candidates": {},
+    "type_confidence": 1.0
+  },
+  {
+    "blank_count": 0,
+    "cardinality_ratio": 0.3103,
+    "date_ambiguous": false,
+    "date_candidates": [],
+    "distinct_count": 9,
+    "inferred_type": "integer",
+    "max_length": 3,
+    "min_length": 1,
+    "name": "Qty",
+    "normalized_distinct_count": 9,
+    "null_count": 1,
+    "null_rate": 0.0333,
+    "numeric": {
+      "max": 500.0,
+      "mean": 66.310345,
+      "min": 1.0,
+      "stddev": 149.280367
+    },
+    "ordinal": 5,
+    "pattern_coverage": 1.0,
+    "patterns": [
+      {
+        "count": 14,
+        "pattern": "\\d",
+        "pct": 0.4828
+      },
+      {
+        "count": 10,
+        "pattern": "\\d{2}",
+        "pct": 0.3448
+      },
+      {
+        "count": 5,
+        "pattern": "\\d{3}",
+        "pct": 0.1724
+      }
+    ],
+    "row_count": 30,
+    "samples": [
+      "24",
+      "12",
+      "4",
+      "1",
+      "500"
+    ],
+    "semantics": [
+      "enum"
+    ],
+    "top_values": [
+      {
+        "count": 5,
+        "pct": 0.1724,
+        "value": "24"
+      },
+      {
+        "count": 5,
+        "pct": 0.1724,
+        "value": "12"
+      },
+      {
+        "count": 4,
+        "pct": 0.1379,
+        "value": "4"
+      },
+      {
+        "count": 3,
+        "pct": 0.1034,
+        "value": "1"
+      },
+      {
+        "count": 3,
+        "pct": 0.1034,
+        "value": "500"
+      },
+      {
+        "count": 3,
+        "pct": 0.1034,
+        "value": "2"
+      },
+      {
+        "count": 2,
+        "pct": 0.069,
+        "value": "6"
+      },
+      {
+        "count": 2,
+        "pct": 0.069,
+        "value": "100"
+      },
+      {
+        "count": 2,
+        "pct": 0.069,
+        "value": "3"
+      }
+    ],
+    "type_candidates": {
+      "boolean": 0.1034,
+      "decimal": 1.0,
+      "integer": 1.0
+    },
+    "type_confidence": 1.0
+  },
+  {
+    "blank_count": 0,
+    "cardinality_ratio": 0.2414,
+    "date_ambiguous": false,
+    "date_candidates": [],
+    "distinct_count": 7,
+    "inferred_type": "decimal",
+    "max_length": 9,
+    "min_length": 5,
+    "name": "Price Each",
+    "normalized_distinct_count": 7,
+    "null_count": 1,
+    "null_rate": 0.0333,
+    "numeric": {
+      "max": 1142.0,
+      "mean": 373.403793,
+      "min": 0.12,
+      "stddev": 516.096619
+    },
+    "ordinal": 6,
+    "pattern_coverage": 1.0,
+    "patterns": [
+      {
+        "count": 14,
+        "pattern": "\\$\\d{2}\\.\\d{2}",
+        "pct": 0.4828
+      },
+      {
+        "count": 9,
+        "pattern": "\\$\\d,\\d{3}\\.\\d{2}",
+        "pct": 0.3103
+      },
+      {
+        "count": 6,
+        "pattern": "\\$\\d\\.\\d{2}",
+        "pct": 0.2069
+      }
+    ],
+    "row_count": 30,
+    "samples": [
+      "$1,142.00",
+      "$0.85",
+      "$12.75",
+      "$76.40",
+      "$38.50"
+    ],
+    "semantics": [
+      "currency",
+      "enum"
+    ],
+    "top_values": [
+      {
+        "count": 9,
+        "pct": 0.3103,
+        "value": "$1,142.00"
+      },
+      {
+        "count": 4,
+        "pct": 0.1379,
+        "value": "$0.85"
+      },
+      {
+        "count": 4,
+        "pct": 0.1379,
+        "value": "$12.75"
+      },
+      {
+        "count": 4,
+        "pct": 0.1379,
+        "value": "$76.40"
+      },
+      {
+        "count": 3,
+        "pct": 0.1034,
+        "value": "$38.50"
+      },
+      {
+        "count": 3,
+        "pct": 0.1034,
+        "value": "$24.99"
+      },
+      {
+        "count": 2,
+        "pct": 0.069,
+        "value": "$0.12"
+      }
+    ],
+    "type_candidates": {
+      "decimal": 1.0
+    },
+    "type_confidence": 1.0
+  },
+  {
+    "blank_count": 0,
+    "cardinality_ratio": 0.0333,
+    "date_ambiguous": false,
+    "date_candidates": [],
+    "distinct_count": 1,
+    "inferred_type": "string",
+    "max_length": 3,
+    "min_length": 3,
+    "name": "Curr",
+    "normalized_distinct_count": 1,
+    "null_count": 0,
+    "null_rate": 0.0,
+    "numeric": null,
+    "ordinal": 7,
+    "pattern_coverage": 1.0,
+    "patterns": [
+      {
+        "count": 30,
+        "pattern": "[A-Z]{3}",
+        "pct": 1.0
+      }
+    ],
+    "row_count": 30,
+    "samples": [
+      "USD"
+    ],
+    "semantics": [
+      "enum"
+    ],
+    "top_values": [
+      {
+        "count": 30,
+        "pct": 1.0,
+        "value": "USD"
+      }
+    ],
+    "type_candidates": {},
+    "type_confidence": 1.0
+  },
+  {
+    "blank_count": 0,
+    "cardinality_ratio": 0.1724,
+    "date_ambiguous": false,
+    "date_candidates": [],
+    "distinct_count": 5,
+    "inferred_type": "decimal",
+    "max_length": 3,
+    "min_length": 2,
+    "name": "Disc %",
+    "normalized_distinct_count": 5,
+    "null_count": 1,
+    "null_rate": 0.0333,
+    "numeric": {
+      "max": 20.0,
+      "mean": 8.448276,
+      "min": 0.0,
+      "stddev": 6.446524
+    },
+    "ordinal": 8,
+    "pattern_coverage": 1.0,
+    "patterns": [
+      {
+        "count": 16,
+        "pattern": "\\d%",
+        "pct": 0.5517
+      },
+      {
+        "count": 13,
+        "pattern": "\\d{2}%",
+        "pct": 0.4483
+      }
+    ],
+    "row_count": 30,
+    "samples": [
+      "5%",
+      "0%",
+      "10%",
+      "20%",
+      "15%"
+    ],
+    "semantics": [
+      "percentage",
+      "enum"
+    ],
+    "top_values": [
+      {
+        "count": 11,
+        "pct": 0.3793,
+        "value": "5%"
+      },
+      {
+        "count": 5,
+        "pct": 0.1724,
+        "value": "0%"
+      },
+      {
+        "count": 5,
+        "pct": 0.1724,
+        "value": "10%"
+      },
+      {
+        "count": 4,
+        "pct": 0.1379,
+        "value": "20%"
+      },
+      {
+        "count": 4,
+        "pct": 0.1379,
+        "value": "15%"
+      }
+    ],
+    "type_candidates": {
+      "decimal": 1.0
+    },
+    "type_confidence": 1.0
+  },
+  {
+    "blank_count": 0,
+    "cardinality_ratio": 0.6,
+    "date_ambiguous": false,
+    "date_candidates": [
+      {
+        "format": "%m/%d/%Y",
+        "label": "MM/DD/YYYY",
+        "parsed": 28,
+        "pct": 0.9333
+      },
+      {
+        "format": "%d/%m/%Y",
+        "label": "DD/MM/YYYY",
+        "parsed": 11,
+        "pct": 0.3667
+      }
+    ],
+    "distinct_count": 18,
+    "inferred_type": "date",
+    "max_length": 12,
+    "min_length": 10,
+    "name": "Ordered On",
+    "normalized_distinct_count": 18,
+    "null_count": 0,
+    "null_rate": 0.0,
+    "numeric": null,
+    "ordinal": 9,
+    "pattern_coverage": 1.0,
+    "patterns": [
+      {
+        "count": 29,
+        "pattern": "\\d{2}\\/\\d{2}\\/\\d{4}",
+        "pct": 0.9667
+      },
+      {
+        "count": 1,
+        "pattern": "[a-z]{3}\\s[a-z]{8}",
+        "pct": 0.0333
+      }
+    ],
+    "row_count": 30,
+    "samples": [
+      "03/26/2024",
+      "03/17/2024",
+      "03/13/2024",
+      "03/04/2024",
+      "03/08/2024"
+    ],
+    "semantics": [
+      "date"
+    ],
+    "top_values": [
+      {
+        "count": 4,
+        "pct": 0.1333,
+        "value": "03/26/2024"
+      },
+      {
+        "count": 3,
+        "pct": 0.1,
+        "value": "03/17/2024"
+      },
+      {
+        "count": 3,
+        "pct": 0.1,
+        "value": "03/13/2024"
+      },
+      {
+        "count": 3,
+        "pct": 0.1,
+        "value": "03/04/2024"
+      },
+      {
+        "count": 2,
+        "pct": 0.0667,
+        "value": "03/08/2024"
+      },
+      {
+        "count": 2,
+        "pct": 0.0667,
+        "value": "03/12/2024"
+      },
+      {
+        "count": 2,
+        "pct": 0.0667,
+        "value": "03/01/2024"
+      },
+      {
+        "count": 1,
+        "pct": 0.0333,
+        "value": "03/24/2024"
+      },
+      {
+        "count": 1,
+        "pct": 0.0333,
+        "value": "03/16/2024"
+      },
+      {
+        "count": 1,
+        "pct": 0.0333,
+        "value": "03/07/2024"
+      }
+    ],
+    "type_candidates": {
+      "date": 0.9333
+    },
+    "type_confidence": 0.9333
+  },
+  {
+    "blank_count": 0,
+    "cardinality_ratio": 0.6667,
+    "date_ambiguous": false,
+    "date_candidates": [
+      {
+        "format": "%m/%d/%Y",
+        "label": "MM/DD/YYYY",
+        "parsed": 18,
+        "pct": 1.0
+      },
+      {
+        "format": "%d/%m/%Y",
+        "label": "DD/MM/YYYY",
+        "parsed": 7,
+        "pct": 0.3889
+      }
+    ],
+    "distinct_count": 12,
+    "inferred_type": "date",
+    "max_length": 10,
+    "min_length": 10,
+    "name": "Shipped",
+    "normalized_distinct_count": 12,
+    "null_count": 12,
+    "null_rate": 0.4,
+    "numeric": null,
+    "ordinal": 10,
+    "pattern_coverage": 1.0,
+    "patterns": [
+      {
+        "count": 18,
+        "pattern": "\\d{2}\\/\\d{2}\\/\\d{4}",
+        "pct": 1.0
+      }
+    ],
+    "row_count": 30,
+    "samples": [
+      "03/29/2024",
+      "03/07/2024",
+      "03/11/2024",
+      "03/15/2024",
+      "03/27/2024"
+    ],
+    "semantics": [
+      "date"
+    ],
+    "top_values": [
+      {
+        "count": 3,
+        "pct": 0.1667,
+        "value": "03/29/2024"
+      },
+      {
+        "count": 3,
+        "pct": 0.1667,
+        "value": "03/07/2024"
+      },
+      {
+        "count": 2,
+        "pct": 0.1111,
+        "value": "03/11/2024"
+      },
+      {
+        "count": 2,
+        "pct": 0.1111,
+        "value": "03/15/2024"
+      },
+      {
+        "count": 1,
+        "pct": 0.0556,
+        "value": "03/27/2024"
+      },
+      {
+        "count": 1,
+        "pct": 0.0556,
+        "value": "03/10/2024"
+      },
+      {
+        "count": 1,
+        "pct": 0.0556,
+        "value": "03/18/2024"
+      },
+      {
+        "count": 1,
+        "pct": 0.0556,
+        "value": "03/21/2024"
+      },
+      {
+        "count": 1,
+        "pct": 0.0556,
+        "value": "03/16/2024"
+      },
+      {
+        "count": 1,
+        "pct": 0.0556,
+        "value": "03/31/2024"
+      }
+    ],
+    "type_candidates": {
+      "date": 1.0
+    },
+    "type_confidence": 1.0
+  },
+  {
+    "blank_count": 0,
+    "cardinality_ratio": 0.5,
+    "date_ambiguous": false,
+    "date_candidates": [],
+    "distinct_count": 15,
+    "inferred_type": "string",
+    "max_length": 9,
+    "min_length": 7,
+    "name": "X7",
+    "normalized_distinct_count": 5,
+    "null_count": 0,
+    "null_rate": 0.0,
+    "numeric": null,
+    "ordinal": 11,
+    "pattern_coverage": 1.0,
+    "patterns": [
+      {
+        "count": 5,
+        "pattern": "[A-Z][a-z]{6}",
+        "pct": 0.1667
+      },
+      {
+        "count": 4,
+        "pattern": "[A-Z]{9}",
+        "pct": 0.1333
+      },
+      {
+        "count": 4,
+        "pattern": "[a-z]{9}",
+        "pct": 0.1333
+      },
+      {
+        "count": 3,
+        "pattern": "[A-Z]{8}",
+        "pct": 0.1
+      },
+      {
+        "count": 3,
+        "pattern": "[a-z]{8}",
+        "pct": 0.1
+      },
+      {
+        "count": 3,
+        "pattern": "[a-z]{7}",
+        "pct": 0.1
+      },
+      {
+        "count": 3,
+        "pattern": "[A-Z][a-z]{8}",
+        "pct": 0.1
+      },
+      {
+        "count": 3,
+        "pattern": "[A-Z]{7}",
+        "pct": 0.1
+      },
+      {
+        "count": 2,
+        "pattern": "[A-Z][a-z]{7}",
+        "pct": 0.0667
+      }
+    ],
+    "row_count": 30,
+    "samples": [
+      "RETURNED",
+      "Pending",
+      "returned",
+      "DELIVERED",
+      "cancelled"
+    ],
+    "semantics": [
+      "enum",
+      "inconsistent_case"
+    ],
+    "top_values": [
+      {
+        "count": 3,
+        "pct": 0.1,
+        "value": "RETURNED"
+      },
+      {
+        "count": 3,
+        "pct": 0.1,
+        "value": "Pending"
+      },
+      {
+        "count": 3,
+        "pct": 0.1,
+        "value": "returned"
+      },
+      {
+        "count": 3,
+        "pct": 0.1,
+        "value": "DELIVERED"
+      },
+      {
+        "count": 3,
+        "pct": 0.1,
+        "value": "cancelled"
+      },
+      {
+        "count": 2,
+        "pct": 0.0667,
+        "value": "Returned"
+      },
+      {
+        "count": 2,
+        "pct": 0.0667,
+        "value": "pending"
+      },
+      {
+        "count": 2,
+        "pct": 0.0667,
+        "value": "Delivered"
+      },
+      {
+        "count": 2,
+        "pct": 0.0667,
+        "value": "PENDING"
+      },
+      {
+        "count": 2,
+        "pct": 0.0667,
+        "value": "Shipped"
+      }
+    ],
+    "type_candidates": {},
+    "type_confidence": 1.0
+  }
+]
