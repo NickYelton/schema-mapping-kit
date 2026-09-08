@@ -1,5 +1,8 @@
 export interface HealthResponse {
   status: string
+  phase: number
+  phase_label: string
+  phase_total: number
   llm_provider: string
   catalog: string
   tables: string[]

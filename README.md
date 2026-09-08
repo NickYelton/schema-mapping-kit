@@ -46,6 +46,8 @@ from the DuckDB catalog, so the full loop runs offline.
 | `make api` / `make web` | Run one side only |
 | `make test` | pytest |
 | `make lint` | ruff + tsc |
+| `make fetch-model` | Download the embedding model into the local HF cache (one-time) |
+| `make record-llm` | Record LLM responses for the samples so `replay` can serve them |
 | `make clean` | Drop the local catalog, artifacts, and build output |
 
 ## Layout
@@ -57,6 +59,7 @@ backend/app/
   models/     pydantic models shared across phases (target schema, mapping spec)
   target/     canonical schema YAML -> Pandera schema
   propose/    heuristics + embeddings + LLM, ensembled with provenance
+              providers/  one file per voice; each degrades independently
   transform/  MappingSpec -> DuckDB SQL and Polars Python
   validate/   Pandera run -> plain-English rejection report
 schemas/      canonical target schemas
@@ -77,7 +80,7 @@ Four fixtures in `samples/`, each encoding a distinct class of mess. Regenerate 
 
 ## Status
 
-Phase 3 of 7 complete — ingest, profiling, and the canonical target schema.
+Phase 4 of 7 complete — ingest, profiling, the canonical target schema, and the proposer.
 
 Working now: land CSV/Excel/JSON as all-strings with a `_src_row` traceable to the original
 file, sniff encoding/delimiter/preamble, flatten merged Excel headers and nested JSON, then
@@ -87,4 +90,23 @@ target — dtypes, nullability, constraints, and a composite primary key — whi
 Pandera schema that rejects bad enums, out-of-range numbers, malformed ids, and duplicate
 keys, and is browsable at `/api/schemas`.
 
-Next: the proposer — heuristics, embeddings, and the LLM, ensembled with provenance (Phase 4).
+The proposer ensembles three voices into a versioned `MappingSpec`, each mapping carrying the
+evidence that produced it. Measured against all four fixtures — 50 columns with a known
+correct answer — the name-and-profile heuristic maps 50/50 and the embedding provider 40/50.
+The heuristic therefore leads the ensemble and is the only voice always present, which makes
+it the offline floor for the whole tool.
+
+Next: compiling a MappingSpec to DuckDB SQL and Polars Python (Phase 5).
+
+### Optional providers
+
+Both optional voices degrade rather than fail, so a fresh clone works with neither:
+
+| Provider | Needs | Without it |
+|---|---|---|
+| embeddings | `make fetch-model` (~260MB, one-time) | reported unavailable, ensemble runs on the rest |
+| LLM | `make record-llm` with an API key | `replay` reports no recordings, ensemble runs on the rest |
+
+`fixtures/llm/` ships **empty** — recordings need a real key, so they are not committed by
+anyone who lacks one. Record them once and commit them, and `LLM_PROVIDER=replay` serves the
+full ensemble offline forever after.

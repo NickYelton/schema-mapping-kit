@@ -23,7 +23,9 @@ export default function App() {
         {health && (
           <p className="badge-row">
             <span className="badge">provider: {health.llm_provider}</span>
-            <span className="badge">phase 3 · target schema</span>
+            <span className="badge">
+              phase {health.phase}/{health.phase_total} · {health.phase_label}
+            </span>
           </p>
         )}
       </header>
