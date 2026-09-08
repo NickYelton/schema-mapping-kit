@@ -50,6 +50,7 @@ from the DuckDB catalog, so the full loop runs offline.
 backend/app/
   ingest/     read csv/excel/json as all-strings, add _src_row
   profile/    per-column stats, format pattern mining, semantic detection
+  models/     pydantic models shared across phases (target schema, mapping spec)
   target/     canonical schema YAML -> Pandera schema
   propose/    heuristics + embeddings + LLM, ensembled with provenance
   transform/  MappingSpec -> DuckDB SQL and Polars Python

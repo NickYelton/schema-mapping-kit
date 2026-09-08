@@ -1,0 +1,145 @@
+name: orders
+version: 1
+title: Order line items
+description: >
+  One row per line item on a customer order. The grain is (order_id, line_number):
+  a single order with three products is three rows sharing one order_id.
+primary_key: [order_id, line_number]
+
+# Field `description` and `aliases` are load-bearing, not documentation. The proposer
+# embeds the description to match columns by meaning, and fuzzy-matches the aliases to
+# catch the renames customers actually ship. Add to both when a new dialect shows up.
+fields:
+  - name: order_id
+    dtype: string
+    nullable: false
+    description: >
+      Identifier of the order this line belongs to. Repeats across the lines of a
+      multi-item order; unique only in combination with line_number.
+    aliases: ["ord #", "order no", "order number", "orderid", "bestellnr", "po number", "po"]
+    constraints:
+      # Deliberately shape-based rather than `^ORD-`: real exports carry their own
+      # prefix (the German fixture uses BST-) and a canonical schema that rejects a
+      # valid customer file is worse than one that accepts a wide family of ids.
+      pattern: '^[A-Za-z]{2,4}-\d{4,8}$'
+      max_length: 32
+    examples: [ORD-000101, BST-000101]
+
+  - name: line_number
+    dtype: integer
+    nullable: false
+    description: >
+      Position of this line within its order, starting at 1. Distinguishes the rows
+      of a multi-item order.
+    aliases: ["ln", "line", "line no", "pos", "position", "item no", "seq"]
+    constraints:
+      min: 1
+    examples: ['1', '2']
+
+  - name: customer_id
+    dtype: string
+    nullable: false
+    description: Identifier of the customer that placed the order.
+    aliases: ["cust", "customer", "customer no", "kundennr", "account id", "buyer id"]
+    constraints:
+      pattern: '^[A-Za-z]{2,4}-\d{4,8}$'
+      max_length: 32
+    examples: [CUST-5560, KND-5560]
+
+  - name: customer_name
+    dtype: string
+    nullable: true
+    description: >
+      Display name of the customer. Frequently absent: most tabular exports carry only
+      the customer id and expect the name to be joined in downstream.
+    aliases: ["customer", "customer name", "account name", "buyer", "kunde", "kundenname"]
+    constraints:
+      max_length: 200
+    examples: [Kestrel Plant, Pemberton Works]
+
+  - name: sku
+    dtype: string
+    nullable: false
+    description: Stock-keeping unit of the product ordered on this line.
+    aliases: ["item sku", "item", "artikelnr", "product code", "part number", "material"]
+    constraints:
+      max_length: 64
+    examples: [SKU-1120, ART-1120]
+
+  - name: product_name
+    dtype: string
+    nullable: true
+    description: Human-readable description of the product ordered on this line.
+    aliases: ["description", "desc", "product", "item name", "bezeichnung", "article name"]
+    constraints:
+      max_length: 200
+    examples: [Grommet 12mm, Drive belt]
+
+  - name: quantity
+    dtype: integer
+    nullable: false
+    description: Number of units of the SKU ordered on this line.
+    aliases: ["qty", "menge", "units", "amount ordered", "count"]
+    constraints:
+      min: 1
+    examples: ['4', '24']
+
+  - name: unit_price
+    dtype: decimal
+    nullable: false
+    description: >
+      Price of a single unit before discount, in the currency named by the currency
+      column. Excludes tax and shipping.
+    aliases: ["price each", "price", "einzelpreis", "unit cost", "rate", "list price"]
+    constraints:
+      min: 0
+    examples: ['0.85', '1142.00']
+
+  - name: currency
+    dtype: string
+    nullable: false
+    description: ISO 4217 code of the currency that unit_price is denominated in.
+    aliases: ["curr", "waehrung", "währung", "ccy", "currency code"]
+    constraints:
+      enum: [USD, EUR, GBP, JPY, CAD]
+    examples: [USD, EUR]
+
+  - name: discount_pct
+    dtype: decimal
+    nullable: false
+    description: >
+      Percentage discount applied to this line, as a number out of 100 rather than a
+      fraction: 10 means ten percent off, not one thousand percent.
+    aliases: ["disc %", "discount", "rabatt", "disc pct", "markdown"]
+    constraints:
+      min: 0
+      max: 100
+    examples: ['0', '10']
+
+  - name: order_date
+    dtype: date
+    nullable: false
+    description: Calendar date the order was placed.
+    aliases: ["ordered on", "order dt", "bestelldatum", "ordered at", "created date", "po date"]
+    examples: ['2024-03-08']
+
+  - name: ship_date
+    dtype: date
+    nullable: true
+    description: >
+      Calendar date the line shipped. Null while an order is still pending, and stays
+      null for cancelled orders.
+    aliases: ["shipped", "shipped on", "lieferdatum", "ship dt", "delivery date", "dispatched"]
+    examples: ['2024-03-11']
+
+  - name: status
+    dtype: string
+    nullable: false
+    description: >
+      Fulfilment state of the line. The canonical vocabulary is lower-case English;
+      source files arrive upper-cased, title-cased, or in another language entirely
+      and are mapped onto these five values at transform time.
+    aliases: ["state", "status", "x7", "order status", "fulfilment status", "zustand"]
+    constraints:
+      enum: [pending, shipped, delivered, cancelled, returned]
+    examples: [pending, delivered]

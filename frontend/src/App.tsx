@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { api } from './api/client'
+import { TargetSchemaPanel } from './components/TargetSchemaPanel'
 import { ProfilePage } from './pages/ProfilePage'
 import type { HealthResponse } from './types/api'
 import './App.css'
@@ -22,7 +23,7 @@ export default function App() {
         {health && (
           <p className="badge-row">
             <span className="badge">provider: {health.llm_provider}</span>
-            <span className="badge">phase 2 · ingest + profile</span>
+            <span className="badge">phase 3 · target schema</span>
           </p>
         )}
       </header>
@@ -32,7 +33,10 @@ export default function App() {
           <p className="error">Cannot reach the API. Is the backend running on :8000?</p>
         </section>
       ) : (
-        <ProfilePage />
+        <>
+          <ProfilePage />
+          <TargetSchemaPanel />
+        </>
       )}
     </main>
   )
