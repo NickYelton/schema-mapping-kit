@@ -3,7 +3,9 @@ import type {
   HealthResponse,
   Preview,
   SampleFile,
+  SchemaSummary,
   SourceSummary,
+  TargetSchema,
 } from '../types/api'
 
 const BASE = '/api'
@@ -48,4 +50,9 @@ export const api = {
 
   preview: (sourceId: string, limit = 20) =>
     request<Preview>(`/sources/${sourceId}/preview?limit=${limit}`),
+
+  schemas: () => request<SchemaSummary[]>('/schemas'),
+
+  schema: (name: string, version?: number) =>
+    request<TargetSchema>(`/schemas/${name}${version ? `?version=${version}` : ''}`),
 }

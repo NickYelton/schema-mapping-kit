@@ -78,3 +78,42 @@ export interface Preview {
   columns: string[]
   rows: (string | number | null)[][]
 }
+
+export interface TargetConstraints {
+  enum: string[] | null
+  pattern: string | null
+  min: number | null
+  max: number | null
+  min_length: number | null
+  max_length: number | null
+  unique: boolean
+}
+
+export interface TargetField {
+  name: string
+  dtype: string
+  nullable: boolean
+  description: string
+  aliases: string[]
+  constraints: TargetConstraints
+  examples: string[]
+}
+
+export interface TargetSchema {
+  name: string
+  version: number
+  title: string
+  description: string
+  primary_key: string[]
+  fields: TargetField[]
+}
+
+export interface SchemaSummary {
+  slug: string
+  name: string
+  version: number
+  title: string
+  description: string
+  field_count: number
+  primary_key: string[]
+}

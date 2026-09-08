@@ -288,3 +288,25 @@ th {
   background: var(--code);
   font-weight: 600;
 }
+
+/* --- target schema table (phase 3) --- */
+.schema-table {
+  width: 100%;
+}
+.schema-table td {
+  vertical-align: top;
+}
+.schema-table .field-desc {
+  margin-top: 0.15rem;
+  max-width: 38ch;
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+.chip {
+  display: inline-block;
+  margin: 0 0.25rem 0.25rem 0;
+  padding: 0.05rem 0.35rem;
+  border-radius: 3px;
+  background: rgba(127, 127, 127, 0.14);
+  font-size: 0.75rem;
+}

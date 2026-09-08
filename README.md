@@ -54,6 +54,7 @@ from the DuckDB catalog, so the full loop runs offline.
 backend/app/
   ingest/     read csv/excel/json as all-strings, add _src_row
   profile/    per-column stats, format pattern mining, semantic detection
+  models/     pydantic models shared across phases (target schema, mapping spec)
   target/     canonical schema YAML -> Pandera schema
   propose/    heuristics + embeddings + LLM, ensembled with provenance
   transform/  MappingSpec -> DuckDB SQL and Polars Python
@@ -76,11 +77,14 @@ Four fixtures in `samples/`, each encoding a distinct class of mess. Regenerate 
 
 ## Status
 
-Phase 2 of 7 complete — ingest and profiling.
+Phase 3 of 7 complete — ingest, profiling, and the canonical target schema.
 
 Working now: land CSV/Excel/JSON as all-strings with a `_src_row` traceable to the original
 file, sniff encoding/delimiter/preamble, flatten merged Excel headers and nested JSON, then
 profile every column (types, cardinality, null rate, format patterns, semantic tags) and
-browse the result in the UI.
+browse the result in the UI. Alongside it, `schemas/orders_v1.yaml` defines the canonical
+target — dtypes, nullability, constraints, and a composite primary key — which compiles to a
+Pandera schema that rejects bad enums, out-of-range numbers, malformed ids, and duplicate
+keys, and is browsable at `/api/schemas`.
 
-Next: the canonical target schema and Pandera generation (Phase 3).
+Next: the proposer — heuristics, embeddings, and the LLM, ensembled with provenance (Phase 4).
