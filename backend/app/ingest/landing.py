@@ -73,14 +73,18 @@ def register(path: Path, sheet: str | None = None) -> dict:
     }
 
 
-def load_frame(source_id: str) -> pl.DataFrame:
+def landed_path(source_id: str) -> Path:
     with duck.session() as conn:
         row = conn.execute(
             "SELECT landed_path FROM sources WHERE id = ?", [source_id]
         ).fetchone()
     if row is None:
         raise KeyError(source_id)
-    return pl.read_parquet(row[0])
+    return Path(row[0])
+
+
+def load_frame(source_id: str) -> pl.DataFrame:
+    return pl.read_parquet(landed_path(source_id))
 
 
 def get_source(source_id: str) -> dict | None:

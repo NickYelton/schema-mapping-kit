@@ -28,6 +28,7 @@ class Settings(BaseSettings):
     artifacts_dir: Path = Path("artifacts")
     schemas_dir: Path = Path("schemas")
     samples_dir: Path = Path("samples")
+    llm_fixtures_dir: Path = Path("fixtures/llm")
 
     cors_origins: list[str] = ["http://localhost:5173"]
 
@@ -49,6 +50,10 @@ class Settings(BaseSettings):
     @property
     def samples(self) -> Path:
         return self.resolve(self.samples_dir)
+
+    @property
+    def llm_fixtures(self) -> Path:
+        return self.resolve(self.llm_fixtures_dir)
 
 
 @lru_cache

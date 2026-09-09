@@ -42,6 +42,8 @@ from the DuckDB catalog, so the full loop runs offline.
 | `make api` / `make web` | Run one side only |
 | `make test` | pytest |
 | `make lint` | ruff + tsc |
+| `make fetch-model` | Download the embedding model into the local HF cache (one-time) |
+| `make record-llm` | Record LLM responses for the samples so `replay` can serve them |
 | `make clean` | Drop the local catalog, artifacts, and build output |
 
 ## Layout
@@ -53,7 +55,9 @@ backend/app/
   models/     pydantic models shared across phases (target schema, mapping spec)
   target/     canonical schema YAML -> Pandera schema
   propose/    heuristics + embeddings + LLM, ensembled with provenance
+              providers/  one file per voice; each degrades independently
   transform/  MappingSpec -> DuckDB SQL and Polars Python
+              pipeline.py shared op contract; sql.py and polars_engine.py compile it
   validate/   Pandera run -> plain-English rejection report
 schemas/      canonical target schemas
 samples/      deliberately messy fixtures
