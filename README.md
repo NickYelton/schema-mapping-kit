@@ -61,6 +61,7 @@ backend/app/
   propose/    heuristics + embeddings + LLM, ensembled with provenance
               providers/  one file per voice; each degrades independently
   transform/  MappingSpec -> DuckDB SQL and Polars Python
+              pipeline.py shared op contract; sql.py and polars_engine.py compile it
   validate/   Pandera run -> plain-English rejection report
 schemas/      canonical target schemas
 samples/      deliberately messy fixtures
@@ -80,7 +81,7 @@ Four fixtures in `samples/`, each encoding a distinct class of mess. Regenerate 
 
 ## Status
 
-Phase 4 of 7 complete — ingest, profiling, the canonical target schema, and the proposer.
+Phase 5 of 7 complete — ingest, profiling, target schema, proposer, and the compiled transform.
 
 Working now: land CSV/Excel/JSON as all-strings with a `_src_row` traceable to the original
 file, sniff encoding/delimiter/preamble, flatten merged Excel headers and nested JSON, then
@@ -96,7 +97,17 @@ correct answer — the name-and-profile heuristic maps 50/50 and the embedding p
 The heuristic therefore leads the ensemble and is the only voice always present, which makes
 it the offline floor for the whole tool.
 
-Next: compiling a MappingSpec to DuckDB SQL and Polars Python (Phase 5).
+A reviewed `MappingSpec` compiles to a **DuckDB SELECT** and a **standalone Polars module**,
+both written to `artifacts/transforms/`. Every op is string-to-string and `cast` is the single
+typed boundary that ends each pipeline, which is what keeps the two compilers symmetric and
+makes any op composable with any other. Casts never raise: an unconvertible value becomes
+null and phase 6 will explain it against the original row.
+
+The load-bearing test is three-way determinism — the SQL, the Polars expressions, and the
+rendered Python module must produce byte-identical frames on all four fixtures. Once that
+holds, the transform a customer runs forever after is the one that was reviewed.
+
+Next: the Pandera run and the plain-English rejection report (Phase 6).
 
 ### Optional providers
 

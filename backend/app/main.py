@@ -3,7 +3,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.routes import health, proposals, schemas, sources
+from app.api.routes import health, proposals, schemas, sources, transforms
 from app.core.settings import get_settings
 from app.db import duck
 
@@ -32,6 +32,7 @@ def create_app() -> FastAPI:
     app.include_router(sources.router, prefix="/api")
     app.include_router(schemas.router, prefix="/api")
     app.include_router(proposals.router, prefix="/api")
+    app.include_router(transforms.router, prefix="/api")
     return app
 
 
