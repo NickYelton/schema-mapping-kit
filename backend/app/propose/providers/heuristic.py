@@ -12,6 +12,7 @@ lower-cased-if-you-squint tokens that are exactly the target's enum, which is co
 
 import re
 
+import polars as pl
 from rapidfuzz import fuzz
 
 from app.models.mapping import Candidate, Evidence, TransformOp
@@ -212,19 +213,59 @@ def suggest_transforms(profile: dict, field: TargetField) -> list[TransformOp]:
             ops.append(TransformOp(op="parse_decimal", args={"locale": "us"}))
 
     elif field.dtype in {"date", "datetime"}:
-        candidates = profile.get("date_candidates") or []
-        if candidates:
-            ops.append(TransformOp(op="parse_date", args={"format": candidates[0]["format"]}))
+        fmt = _engine_date_format(profile)
+        if fmt:
+            ops.append(TransformOp(op="parse_date", args={"format": fmt}))
 
     elif field.dtype == "string" and field.constraints.enum:
-        mapping = _enum_mapping(profile, field)
-        if mapping:
-            ops.append(TransformOp(op="map_values", args={"mapping": mapping}))
-        elif "inconsistent_case" in tags:
-            ops.append(TransformOp(op="lower"))
+        case_op = _enum_case_op(profile, field, tags)
+        if case_op:
+            ops.append(case_op)
 
     ops.append(TransformOp(op="cast", args={"dtype": field.dtype}))
     return ops
+
+
+def _engine_date_format(profile: dict) -> str | None:
+    """The ranked date format that Polars parses best on the column's samples.
+
+    The profiler ranks formats with Python's strptime, which reads a literal `Z` with `%z`.
+    Polars and DuckDB do not, so trusting that ranking turned every ISO timestamp into null.
+    """
+    candidates = profile.get("date_candidates") or []
+    if not candidates:
+        return None
+    samples = pl.Series([str(s) for s in profile.get("samples", [])], dtype=pl.Utf8)
+    if samples.is_empty():
+        return candidates[0]["format"]
+
+    def parsed(candidate: dict) -> int:
+        try:
+            values = samples.str.strip_chars().str.strptime(
+                pl.Datetime, format=candidate["format"], strict=False
+            )
+        except pl.exceptions.PolarsError:
+            return 0
+        return values.drop_nulls().len()
+
+    return max(candidates, key=parsed)["format"]
+
+
+def _enum_case_op(profile: dict, field: TargetField, tags: set[str]) -> TransformOp | None:
+    """Fold case onto an enum whose members share one case.
+
+    A map built from the profile's top values misses rarer spellings — the messy fixture has
+    15 variants of 5 statuses — while folding case covers spellings the profile never listed.
+    """
+    enum = field.constraints.enum or []
+    mapping = _enum_mapping(profile, field)
+    if not mapping and "inconsistent_case" not in tags:
+        return None
+    if all(e == e.lower() for e in enum):
+        return TransformOp(op="lower")
+    if all(e == e.upper() for e in enum):
+        return TransformOp(op="upper")
+    return TransformOp(op="map_values", args={"mapping": mapping}) if mapping else None
 
 
 def _enum_mapping(profile: dict, field: TargetField) -> dict[str, str]:

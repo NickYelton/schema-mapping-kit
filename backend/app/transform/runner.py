@@ -14,6 +14,7 @@ from app.models.mapping import MappingSpec
 from app.models.target import TargetSchema
 from app.transform import polars_engine, sql
 from app.transform.pipeline import CompileError
+from app.validate import report as validation
 
 ENGINES = ("duckdb", "polars")
 
@@ -28,6 +29,11 @@ class RunResult:
     python_path: Path
     rows_in: int
     rows_out: int
+    rows_valid: int | None = None
+    rows_rejected: int | None = None
+    report: validation.Report | None = None
+    report_path: Path | None = None
+    rejections_path: Path | None = None
 
 
 def artifacts_dir(source_id: str) -> Path:
@@ -64,6 +70,7 @@ def run(
     schema: TargetSchema,
     engine: str = "polars",
     persist: bool = True,
+    validate: bool = True,
 ) -> RunResult:
     if engine not in ENGINES:
         raise CompileError(f"unknown engine {engine!r}, expected one of {ENGINES}")
@@ -81,18 +88,27 @@ def run(
     )
 
     root = artifacts_dir(spec.source_id)
-    output_path = root / f"v{spec.version}_{spec.content_hash()}_{engine}.parquet"
-    frame.write_parquet(output_path)
-
     run_id = uuid.uuid4().hex[:12]
+
+    checked = None
+    output = frame
+    if validate:
+        checked = validation.check(frame, pl.read_parquet(source_path), spec, schema)
+        output = checked.valid
+
+    output_path = root / f"v{spec.version}_{spec.content_hash()}_{engine}.parquet"
+    output.write_parquet(output_path)
+
+    reports = validation.write(checked, root, f"run_{run_id}", run_id=run_id) if checked else {}
+
     if persist:
         with duck.session() as conn:
             conn.execute(
                 """
                 INSERT INTO runs
                     (id, spec_id, engine, input_path, output_path, rows_in, rows_out,
-                     rows_rejected)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                     rows_rejected, report_path)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 [
                     run_id,
@@ -102,7 +118,8 @@ def run(
                     str(output_path),
                     source["row_count"],
                     frame.height,
-                    None,
+                    checked.rows_rejected if checked else None,
+                    str(reports["report"]) if checked else None,
                 ],
             )
 
@@ -115,27 +132,47 @@ def run(
         python_path=paths["python"],
         rows_in=source["row_count"],
         rows_out=frame.height,
+        rows_valid=checked.rows_valid if checked else None,
+        rows_rejected=checked.rows_rejected if checked else None,
+        report=checked,
+        report_path=reports.get("report"),
+        rejections_path=reports.get("rejections"),
     )
+
+
+RUN_COLUMNS = """
+    id, spec_id, engine, input_path, output_path, rows_in, rows_out, rows_rejected,
+    report_path, created_at
+"""
+
+
+def _run_dict(r: tuple) -> dict:
+    return {
+        "run_id": r[0],
+        "source_id": r[1],
+        "engine": r[2],
+        "input_path": r[3],
+        "output_path": r[4],
+        "rows_in": r[5],
+        "rows_out": r[6],
+        "rows_rejected": r[7],
+        "rows_valid": None if r[7] is None else r[6] - r[7],
+        "report_path": r[8],
+        "rejections_path": validation.rejections_path(r[8]) if r[8] else None,
+        "created_at": r[9].isoformat() if r[9] else None,
+    }
 
 
 def list_runs(source_id: str) -> list[dict]:
     with duck.session() as conn:
         rows = conn.execute(
-            """
-            SELECT id, engine, input_path, output_path, rows_in, rows_out, created_at
-            FROM runs WHERE spec_id = ? ORDER BY created_at DESC
-            """,
+            f"SELECT {RUN_COLUMNS} FROM runs WHERE spec_id = ? ORDER BY created_at DESC",
             [source_id],
         ).fetchall()
-    return [
-        {
-            "run_id": r[0],
-            "engine": r[1],
-            "input_path": r[2],
-            "output_path": r[3],
-            "rows_in": r[4],
-            "rows_out": r[5],
-            "created_at": r[6].isoformat() if r[6] else None,
-        }
-        for r in rows
-    ]
+    return [_run_dict(r) for r in rows]
+
+
+def get_run(run_id: str) -> dict | None:
+    with duck.session() as conn:
+        row = conn.execute(f"SELECT {RUN_COLUMNS} FROM runs WHERE id = ?", [run_id]).fetchone()
+    return _run_dict(row) if row else None

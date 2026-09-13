@@ -79,6 +79,19 @@ def test_output_matches_the_target_schema(sample, registered, orders):
     assert frame.schema == expected.schema
 
 
+@pytest.mark.parametrize("sample", FIXTURES)
+def test_no_required_column_is_entirely_null(sample, registered, orders):
+    """Agreeing engines can agree on nothing: nested dates once parsed to null in both."""
+    source_id, spec = registered(sample)
+    frame = polars_engine.apply(spec, landing.load_frame(source_id), orders)
+    empty = [
+        f.name
+        for f in orders.fields
+        if not f.nullable and frame[f.name].null_count() == frame.height
+    ]
+    assert not empty, f"{sample}: required columns with no values at all: {empty}"
+
+
 # ---------------------------------------------------------------- op semantics
 
 
