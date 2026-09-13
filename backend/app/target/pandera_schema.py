@@ -30,21 +30,31 @@ def polars_dtype(dtype: str) -> pl.DataType:
         raise ValueError(f"No Polars dtype mapped for {dtype!r}") from exc
 
 
-def _checks(constraints: Constraints) -> list[pa.Check]:
-    checks: list[pa.Check] = []
+def _check_specs(constraints: Constraints) -> list[tuple[str, pa.Check]]:
+    specs: list[tuple[str, pa.Check]] = []
     if constraints.enum is not None:
-        checks.append(pa.Check.isin(constraints.enum))
+        specs.append(("enum", pa.Check.isin(constraints.enum)))
     if constraints.pattern is not None:
-        checks.append(pa.Check.str_matches(constraints.pattern))
+        specs.append(("pattern", pa.Check.str_matches(constraints.pattern)))
     if constraints.min is not None:
-        checks.append(pa.Check.ge(constraints.min))
+        specs.append(("min", pa.Check.ge(constraints.min)))
     if constraints.max is not None:
-        checks.append(pa.Check.le(constraints.max))
+        specs.append(("max", pa.Check.le(constraints.max)))
     if constraints.min_length is not None or constraints.max_length is not None:
-        checks.append(
-            pa.Check.str_length(min_value=constraints.min_length, max_value=constraints.max_length)
+        length = pa.Check.str_length(
+            min_value=constraints.min_length, max_value=constraints.max_length
         )
-    return checks
+        specs.append(("length", length))
+    return specs
+
+
+def _checks(constraints: Constraints) -> list[pa.Check]:
+    return [check for _, check in _check_specs(constraints)]
+
+
+def check_kinds(constraints: Constraints) -> list[str]:
+    """The constraint kind behind each Pandera `check_number`, in build order."""
+    return [kind for kind, _ in _check_specs(constraints)]
 
 
 def column(field: TargetField) -> pa.Column:

@@ -81,7 +81,7 @@ Four fixtures in `samples/`, each encoding a distinct class of mess. Regenerate 
 
 ## Status
 
-Phase 5 of 7 complete — ingest, profiling, target schema, proposer, and the compiled transform.
+Phase 6 of 7 complete — ingest, profiling, target schema, proposer, compiled transform, and validation.
 
 Working now: land CSV/Excel/JSON as all-strings with a `_src_row` traceable to the original
 file, sniff encoding/delimiter/preamble, flatten merged Excel headers and nested JSON, then
@@ -107,7 +107,16 @@ The load-bearing test is three-way determinism — the SQL, the Polars expressio
 rendered Python module must produce byte-identical frames on all four fixtures. Once that
 holds, the transform a customer runs forever after is the one that was reviewed.
 
-Next: the Pandera run and the plain-English rejection report (Phase 6).
+Every run validates its output against the phase 3 Pandera schema. Rows that pass become the
+output; rows that fail are explained in terms of the customer's own file — the line number,
+their column name, and the value they actually sent — because `_src_row` carries the original
+line through every step. A `NULL` or `n/a` is reported as empty, `13/45/2024` as an unreadable
+date in the expected format, and identical failures are grouped, so thirty untranslated German
+statuses read as five problems rather than thirty. Each run writes `run_<id>_report.json` and a
+`run_<id>_rejections.csv` that opens cleanly in Excel. A malformed transform — a wrong dtype, a
+missing column — is a structural error, not a row rejection.
+
+Next: the review UI, where a human confirms or corrects the proposed mapping (Phase 7).
 
 ### Optional providers
 
