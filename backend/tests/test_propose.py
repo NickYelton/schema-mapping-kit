@@ -8,6 +8,7 @@ are implementation detail, but "the German sheet's Artikelnr is the sku" is not.
 import json
 from pathlib import Path
 
+import polars as pl
 import pytest
 
 from app.core.settings import get_settings
@@ -23,6 +24,7 @@ from app.profile.profiler import profile_frame
 from app.propose import ensemble, store
 from app.propose.providers import embeddings, heuristic, llm
 from app.target import loader
+from app.transform import polars_engine
 
 SAMPLES = Path(__file__).resolve().parents[2] / "samples"
 
@@ -210,12 +212,31 @@ def test_date_format_is_disambiguated_per_file(orders):
     assert messy_fmt == "%m/%d/%Y"
 
 
+def _apply_suggested(values: list[str], ops: list[TransformOp], dtype: str) -> list:
+    expr = pl.col("c")
+    for op in ops:
+        expr = polars_engine._apply(expr, op, dtype)
+    return pl.DataFrame({"c": values}, schema={"c": pl.Utf8}).select(expr)["c"].to_list()
+
+
 def test_case_only_enum_differences_are_mapped(orders):
+    """Spellings missing from the profile's top values must resolve too."""
     profile = next(p for p in profiles_for("orders_messy.csv") if p["name"] == "X7")
-    ops = heuristic.suggest_transforms(profile, orders.field("status"))
-    mapping = next(t for t in ops if t.op == "map_values").args["mapping"]
-    assert mapping["RETURNED"] == "returned"
-    assert all(v in orders.field("status").constraints.enum for v in mapping.values())
+    field = orders.field("status")
+    ops = heuristic.suggest_transforms(profile, field)
+
+    spellings = ["RETURNED", "Returned", "CANCELLED", "Cancelled", "SHIPPED", "shipped"]
+    listed = {str(v["value"]) for v in profile["top_values"]}
+    assert not set(spellings) <= listed, "fixture no longer exercises unlisted spellings"
+    assert set(_apply_suggested(spellings, ops, "string")) <= set(field.constraints.enum)
+
+
+def test_iso_timestamps_get_a_format_the_engines_can_parse(orders):
+    profile = next(p for p in profiles_for("orders_nested.jsonl") if p["name"] == "orderedAt")
+    ops = heuristic.suggest_transforms(profile, orders.field("order_date"))
+
+    assert next(t for t in ops if t.op == "parse_date").args["format"] == "%Y-%m-%dT%H:%M:%SZ"
+    assert None not in _apply_suggested([str(s) for s in profile["samples"]], ops, "date")
 
 
 def test_foreign_enum_values_are_left_for_a_human(orders):
