@@ -81,7 +81,7 @@ Four fixtures in `samples/`, each encoding a distinct class of mess. Regenerate 
 
 ## Status
 
-Phase 6 of 7 complete — ingest, profiling, target schema, proposer, compiled transform, and validation.
+All 7 phases complete — from a messy file to a reviewed, versioned, deterministic transform.
 
 Working now: land CSV/Excel/JSON as all-strings with a `_src_row` traceable to the original
 file, sniff encoding/delimiter/preamble, flatten merged Excel headers and nested JSON, then
@@ -116,7 +116,14 @@ statuses read as five problems rather than thirty. Each run writes `run_<id>_rep
 `run_<id>_rejections.csv` that opens cleanly in Excel. A malformed transform — a wrong dtype, a
 missing column — is a structural error, not a row rejection.
 
-Next: the review UI, where a human confirms or corrects the proposed mapping (Phase 7).
+The review UI closes the loop. Load a file, open **Review & run**, and propose a mapping.
+Every target field shows the column feeding it, the proposer's confidence and evidence, an
+editable pipeline of transform steps, and before/after samples. Each edit is checked against
+the whole file without being saved, so the pass meter and the rows that would be rejected
+update as you work — an unaccepted value such as `retourniert` can be mapped to its canonical
+status right from the rejection list. Saving creates a new content-addressed version with a
+record of what changed, and a run compiles and validates the saved version. Runs are blocked
+while edits are unsaved, so what runs is always a version someone saved.
 
 ### Optional providers
 

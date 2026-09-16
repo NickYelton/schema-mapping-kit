@@ -5,7 +5,7 @@ import type { ColumnProfile, Preview, SampleFile, SourceSummary } from '../types
 
 type Load = { state: 'idle' } | { state: 'busy' } | { state: 'error'; message: string }
 
-export function ProfilePage() {
+export function ProfilePage({ onSource }: { onSource?: (source: SourceSummary) => void }) {
   const [samples, setSamples] = useState<SampleFile[]>([])
   const [source, setSource] = useState<SourceSummary | null>(null)
   const [profiles, setProfiles] = useState<ColumnProfile[]>([])
@@ -19,6 +19,7 @@ export function ProfilePage() {
 
   async function show(summary: SourceSummary) {
     setSource(summary)
+    onSource?.(summary)
     const [p, pv] = await Promise.all([
       api.profile(summary.source_id),
       api.preview(summary.source_id, 12),
