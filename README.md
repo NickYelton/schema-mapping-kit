@@ -4,7 +4,7 @@ This tool ingests an arbitrary CSV/Excel/JSON file, profiles every column, propo
 to a target schema using embeddings + an LLM + dumb-but-effective heuristics, presents it in a
 review UI where a human confirms or corrects, and emits a **versioned, deterministic transform**
 (SQL or Python) that runs forever after without touching the LLM. Failed rows get a plain-English
-rejection report the customer can actually act on.
+rejection report the customer can act on.
 
 > **The LLM is a design-time assistant, never a runtime dependency.**
 
