@@ -120,3 +120,148 @@ export interface SchemaSummary {
   field_count: number
   primary_key: string[]
 }
+
+export interface TransformOp {
+  op: string
+  args: Record<string, unknown>
+}
+
+export interface Evidence {
+  provider: string
+  score: number
+  detail: string
+}
+
+export interface Candidate {
+  target_field: string
+  score: number
+  transforms: TransformOp[]
+  provenance: Evidence[]
+}
+
+export interface FieldMapping {
+  target_field: string
+  source_column: string | null
+  literal: string | null
+  transforms: TransformOp[]
+  confidence: number
+  provenance: Evidence[]
+  decided_by: 'proposed' | 'human'
+  note: string
+  alternatives: Candidate[]
+}
+
+export interface MappingSpec {
+  source_id: string
+  target_schema: string
+  target_version: number
+  mappings: FieldMapping[]
+  unmapped_columns: string[]
+  version: number
+  parent_id: string | null
+  created_by: string | null
+}
+
+export interface SpecChange {
+  target_field: string
+  before: string | null
+  after: string | null
+  transforms_changed: boolean
+}
+
+export interface StoredSpec {
+  id: string
+  source_id: string
+  target_schema: string
+  target_version: number
+  version: number
+  parent_id: string | null
+  content_hash: string
+  created_by: string | null
+  created_at: string | null
+  spec: MappingSpec
+  changes?: SpecChange[]
+}
+
+export interface ProviderStatus {
+  provider: string
+  available: boolean
+  detail: string
+}
+
+export interface ProposeResponse {
+  mapped: number
+  total: number
+  unmapped_columns: string[]
+  providers: ProviderStatus[]
+  spec_id: string | null
+  version: number | null
+  content_hash: string
+  spec: MappingSpec
+}
+
+export interface ProblemGroup {
+  field: string
+  column: string | null
+  kind: string
+  value: string | null
+  count: number
+  lines: number[]
+  message: string
+}
+
+export interface FieldSample {
+  line: number
+  raw: string | null
+  value: string | null
+}
+
+export interface PreviewResponse {
+  content_hash: string
+  rows_in: number
+  rows_valid: number
+  rows_rejected: number
+  summary: string
+  groups: ProblemGroup[]
+  field_problems: Record<string, number>
+  samples: Record<string, FieldSample[]>
+}
+
+export interface OpSpec {
+  op: string
+  required: string[]
+  optional: string[]
+}
+
+export interface Vocabulary {
+  ops: OpSpec[]
+  date_formats: { format: string; label: string }[]
+  decimal_locales: string[]
+}
+
+export interface SuggestResponse {
+  column: string
+  field: string
+  transforms: TransformOp[]
+}
+
+export interface RunResponse {
+  run_id: string
+  engine: string
+  rows_in: number
+  rows_out: number
+  rows_valid: number | null
+  rows_rejected: number | null
+  summary: string | null
+  groups: ProblemGroup[]
+  output_path: string
+  sql_path: string
+  python_path: string
+  report_path: string | null
+  rejections_path: string | null
+}
+
+export interface CompiledSource {
+  engine: string
+  source: string
+}

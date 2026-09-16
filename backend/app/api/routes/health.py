@@ -7,8 +7,8 @@ router = APIRouter(tags=["health"])
 
 # Bumped as each phase lands, so the UI badge has one source of truth rather than a
 # hard-coded string that silently describes the phase before last.
-PHASE = 6
-PHASE_LABEL = "validate"
+PHASE = 7
+PHASE_LABEL = "review"
 PHASE_TOTAL = 7
 
 

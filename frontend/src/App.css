@@ -310,3 +310,348 @@ th {
   background: rgba(127, 127, 127, 0.14);
   font-size: 0.75rem;
 }
+
+/* --- review (phase 7) --- */
+.tabs {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0 0 1.25rem;
+}
+.tab {
+  border-radius: 999px;
+}
+.tab.active {
+  border-color: var(--accent);
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+.tab-source {
+  margin-left: auto;
+  font-size: 0.82rem;
+}
+button.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--bg);
+}
+button.primary:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+button.icon {
+  padding: 0 0.35rem;
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+button.link {
+  border: none;
+  background: none;
+  color: var(--accent);
+  padding: 0.15rem 0;
+}
+a.button {
+  display: inline-block;
+  text-decoration: none;
+  color: var(--fg);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 0.4rem 0.75rem;
+}
+a.button:hover {
+  border-color: var(--accent);
+}
+select,
+input {
+  font: inherit;
+  font-size: 0.85rem;
+  color: var(--fg);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0.25rem 0.4rem;
+  max-width: 100%;
+}
+.small {
+  font-size: 0.78rem;
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+.check {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0.5rem 0 1rem;
+}
+.review-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+.review-head h2 {
+  margin-bottom: 0.3rem;
+}
+.review-title {
+  margin: 0;
+}
+.pass {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  font-variant-numeric: tabular-nums;
+}
+.pass-bar {
+  flex: 0 0 220px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--code);
+  overflow: hidden;
+}
+.pass-fill {
+  height: 100%;
+  background: var(--warn);
+  transition: width 0.25s;
+}
+.pass-fill.ok {
+  background: var(--accent);
+}
+.providers {
+  display: flex;
+  gap: 0.4rem;
+  margin: 0.75rem 0 0;
+}
+.badge.off {
+  text-decoration: line-through;
+}
+.mapping-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.mapping-row {
+  display: grid;
+  grid-template-columns: minmax(150px, 0.9fr) minmax(170px, 1fr) minmax(240px, 1.6fr) minmax(
+      190px,
+      1.1fr
+    );
+  gap: 0.9rem;
+  align-items: start;
+  padding: 0.75rem 0.9rem;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+.mapping-row.has-problems {
+  border-left: 3px solid var(--warn);
+}
+.mapping-row.needs-column {
+  border-left: 3px solid var(--error);
+}
+@media (max-width: 900px) {
+  .mapping-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 560px) {
+  .mapping-row {
+    grid-template-columns: 1fr;
+  }
+}
+.mapping-name {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem;
+}
+.mapping-source select {
+  width: 100%;
+}
+.pill {
+  display: inline-block;
+  font-size: 0.72rem;
+  padding: 0.05rem 0.45rem;
+  border-radius: 999px;
+  background: var(--code);
+  color: var(--muted);
+}
+.pill.high,
+.pill.human {
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+.pill.mid,
+.pill.low {
+  color: var(--warn);
+}
+.evidence {
+  margin-top: 0.35rem;
+}
+.evidence summary {
+  cursor: pointer;
+  list-style: none;
+}
+.evidence ul {
+  margin: 0.4rem 0 0;
+  padding-left: 1rem;
+  font-size: 0.78rem;
+}
+.steps ol {
+  list-style: none;
+  margin: 0 0 0.4rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.step {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0.3rem 0.45rem;
+  background: var(--panel);
+}
+.step.fixed {
+  background: transparent;
+  border-style: dashed;
+  font-size: 0.8rem;
+}
+.step-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.3rem;
+}
+.step-name {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.8rem;
+}
+.step-tools {
+  display: flex;
+  gap: 0.2rem;
+}
+.arg {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.3rem;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+.arg input {
+  flex: 1;
+  min-width: 0;
+}
+.arg-row {
+  display: flex;
+  gap: 0.5rem;
+}
+.value-map {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-top: 0.3rem;
+}
+.value-map-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.3rem;
+}
+.arrow {
+  color: var(--muted);
+}
+.sample-pairs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  font-size: 0.78rem;
+}
+.sample-pairs li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: 0.35rem;
+}
+.sample-pairs code {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.sample-pairs .raw {
+  color: var(--muted);
+}
+.sample-pairs .lost {
+  color: var(--error);
+}
+.problem-count {
+  margin-bottom: 0.3rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--warn);
+  font-variant-numeric: tabular-nums;
+}
+.problems {
+  list-style: none;
+  margin: 0 0 0.5rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+.problem {
+  display: grid;
+  grid-template-columns: 3rem 1fr auto;
+  align-items: start;
+  gap: 0.6rem;
+  padding: 0.55rem 0.75rem;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+.problems.compact .problem {
+  grid-template-columns: 3rem 1fr;
+}
+.problem .problem-count {
+  margin: 0.1rem 0 0;
+}
+.problem-body p {
+  margin: 0;
+}
+.fix {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.compiled {
+  max-height: 420px;
+  overflow: auto;
+  padding: 0.75rem 0.9rem;
+  border-radius: 6px;
+  background: var(--code);
+  font-size: 0.78rem;
+}
+.run-result {
+  margin-top: 1rem;
+}
+.history {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.history p {
+  margin: 0.15rem 0 0;
+}

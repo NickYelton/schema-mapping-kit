@@ -80,7 +80,14 @@ def current_spec(source_id: str) -> dict:
 def spec_history(source_id: str) -> list[dict]:
     if landing.get_source(source_id) is None:
         raise HTTPException(status_code=404, detail=f"No source {source_id!r}")
-    return store.history(source_id)
+    history = store.history(source_id)
+    for newer, older in zip(history, history[1:], strict=False):
+        newer["changes"] = store.diff(
+            MappingSpec.model_validate(older["spec"]), MappingSpec.model_validate(newer["spec"])
+        )
+    if history:
+        history[-1]["changes"] = []
+    return history
 
 
 @router.put("/spec")
